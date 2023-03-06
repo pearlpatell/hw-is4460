@@ -1,42 +1,56 @@
 <html>
-<head>
-<title> Add User </title>
-</head>
-
-<body>
-<nav>
-      <ul>
-        <li><a href="user-list.php">User List</a></li>
-        <li><a href="user-details.php">User Details</a></li>
-        <li><a href="login-form.php">Add User</a></li>
-      </ul>
-</nav>
-
-<form>
-			First name: 
-			<br>
-			<input type="text" name="first name">
-			<br>
-			Last name: 
-			<br>
-			<input type="text" name="last name">
-			<br>
-			<br>
-			Age: 
-			<br>
-			<Input type="tel" name="Age">
-			<br>
-			Restaurant: 
-			<br>
-			<input type="text" name="Description">
-			<br>
-			Food Description: 
-			<br>
-			<input type="text" name="Description">
-			<br>
-			<input type='submit' value='ok'>
-			
-</form>
-
-</body>
+	<head>
+	
+	</head>
+	
+	<body>
+		<form method='post' action='addRecord.php'>
+			<pre>
+				ID: <input type='text' name='ID'>
+				username: <input type='text' name='username'>
+				forename: <input type='text' name='forename'>
+				surname: <input type='text' name='surname'>
+				password: <input type='text' name='password'>
+				<input type='submit' value='Add Record'>
+			</pre>
+		</form>
+	</body>
 </html>
+
+
+<?php
+//import credentials for db
+require_once  'login-page.php';
+
+//connect to db
+$conn = new mysqli($hn, $un, $pw, $db);
+if($conn->connect_error) die($conn->connect_error);
+
+//check if ISBN exists
+if(isset($_POST['isbn'])) 
+{
+	//Get data from POST object
+	$ID = $_POST['ID'];
+	$username = $_POST['username'];
+	$forename = $_POST['forename'];
+	$surname = $_POST['surname'];
+	$password = $_POST['password'];
+	
+	//echo $isbn.'<br>';
+	
+	$query = "INSERT INTO classics (ID, username, forename, surname, password) VALUES ('$ID', '$username','$forename', '$surname', '$password')";
+	
+	//echo $query.'<br>';
+	$result = $conn->query($query); 
+	if(!$result) die($conn->error);
+	
+	header("Location: user-details.php");//this will return you to the view all page
+	
+	
+	
+	
+}
+
+
+
+?>
