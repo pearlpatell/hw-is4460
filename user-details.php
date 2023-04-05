@@ -1,11 +1,19 @@
+<html>
+<head>
+<h1>User Details</h1>
+</head>
+</html>
+
+
 <?php
 
-require_once  'login-page.php';
+require_once  'login.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
-$query = "SELECT * FROM HW3";
+$id = $_GET['ID'];
+$query = "SELECT * FROM user where ID = $ID ";
 
 $result = $conn->query($query); 
 if(!$result) die($conn->error);
@@ -28,9 +36,11 @@ echo <<<_END
 	
 	<form action='deleteRecord.php' method='post'>
 		<input type='hidden' name='delete' value='yes'>
-		<input type='hidden' name='isbn' value='$row[isbn]'>
+		<input type='hidden' name='ID' value='$row[ID]'>
 		<input type='submit' value='DELETE RECORD'>	
 	</form>
+
+	
 	
 _END;
 
